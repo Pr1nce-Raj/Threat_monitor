@@ -30,6 +30,24 @@
     --font:     'JetBrains Mono', 'Courier New', monospace;
   }
 
+  :root.light-mode {
+    --bg:       #e5e7eb;
+    --surface:  #ffffff;
+    --surface2: #f3f4f6;
+    --border:   rgba(0,0,0,0.15);
+    --border2:  rgba(0,0,0,0.30);
+    --text:     #111827;
+    --muted:    #4b5563;
+    --green:    #059669;
+    --green-bg: rgba(16,185,129,0.12);
+    --red:      #dc2626;
+    --red-bg:   rgba(239,68,68,0.12);
+    --amber:    #d97706;
+    --amber-bg: rgba(217,119,6,0.12);
+    --blue:     #2563eb;
+    --blue-bg:  rgba(37,99,235,0.12);
+  }
+
   body {
     background: var(--bg);
     color: var(--text);
@@ -38,17 +56,74 @@
     min-height: 100vh;
   }
 
-  /* ── TOP BAR ── */
-  .topbar {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 14px 24px; border-bottom: 1px solid var(--border);
-    background: var(--surface); flex-wrap: wrap; gap: 8px;
+  /* ── TOP BAR CONTAINER ── */
+  .topbar-container {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
   }
-  .topbar-left { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .topbar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 24px;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--green-bg);
+    border: 1px solid var(--border);
+    padding: 4px 10px;
+    border-radius: 4px;
+  }
+  .topbar-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 24px;
+    background: var(--surface2);
+    flex-wrap: wrap;
+    gap: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .controls-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .controls-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .divider {
+    width: 1px;
+    height: 14px;
+    background: var(--border2);
+  }
   .logo { font-size: 15px; font-weight: 700; letter-spacing: 0.12em; color: var(--green); }
   .network-chip {
     font-size: 12px; padding: 3px 10px; border-radius: 4px;
-    background: var(--surface2); border: 1px solid var(--border2); color: var(--muted);
+    background: var(--surface); border: 1px solid var(--border2); color: var(--muted);
   }
   .network-chip.danger { border-color: var(--red); color: var(--red); }
   .live-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--green); animation: blink 1.6s ease-in-out infinite; }
@@ -80,7 +155,7 @@
   /* ── PANELS ── */
   .panels { display: grid; grid-template-columns: 1fr 320px; gap: 16px; margin-bottom: 16px; }
   .right-col { display: flex; flex-direction: column; gap: 12px; }
-  .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+  .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; }
   .panel-head {
     display: flex; align-items: center; justify-content: space-between;
     padding: 10px 16px; border-bottom: 1px solid var(--border); flex-wrap: wrap; gap: 6px;
@@ -108,7 +183,7 @@
   .search-input::placeholder { color: var(--muted); }
 
   /* ── DEVICE TABLE ── */
-  .tbl-wrap { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .tbl-wrap { width: 100%; overflow: auto; -webkit-overflow-scrolling: touch; height: 350px; }
   .tbl { width: 100%; border-collapse: collapse; min-width: 520px; }
   .tbl th {
     font-size: 11px; text-align: left; padding: 8px 16px;
@@ -143,7 +218,7 @@
   .port-tag.safe { border-color: var(--muted); color: var(--muted); }
 
   /* ── BLUETOOTH ── */
-  #bt-list { max-height: 280px; overflow-y: auto; }
+  #bt-list { height: 280px; overflow-y: auto; resize: vertical; min-height: 100px; }
   .bt-panel-head {
     display: flex; align-items: center; justify-content: space-between;
     padding: 10px 16px; border-bottom: 1px solid var(--border); flex-wrap: wrap; gap: 6px;
@@ -171,7 +246,7 @@
 
   /* ── LOG ── */
   .log-panel { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; margin-bottom: 16px; }
-  .log-body { max-height: 200px; overflow-y: auto; }
+  .log-body { height: 160px; overflow-y: auto; resize: vertical; min-height: 100px; }
   .log-row { display: flex; gap: 12px; padding: 6px 16px; border-bottom: 1px solid var(--border); }
   .log-row:last-child { border-bottom: none; }
   .log-row:hover { background: var(--surface2); }
@@ -183,7 +258,7 @@
 
   /* ── KNOWN DEVICES ── */
   .known-panel { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; margin-bottom: 16px; }
-  .known-body { max-height: 260px; overflow-y: auto; overflow-x: auto; }
+  .known-body { height: 240px; overflow-y: auto; overflow-x: auto; resize: vertical; min-height: 120px; }
   .known-tbl { width: 100%; border-collapse: collapse; min-width: 600px; }
   .known-tbl th {
     font-size: 11px; text-align: left; padding: 8px 16px; color: var(--muted);
@@ -215,6 +290,27 @@
   .modal {
     background: var(--surface); border: 1px solid var(--border2);
     border-radius: 8px; padding: 24px; width: 100%; max-width: 420px; max-height: 90vh; overflow-y: auto;
+  }
+  .btn-blue { border-color: var(--blue); color: var(--blue); }
+  .btn-blue:hover { background: var(--blue-bg); }
+
+  .modal.fullscreen-modal {
+    max-width: 90vw;
+    width: 1200px;
+    height: 85vh;
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    background: rgba(20, 23, 32, 0.96);
+    backdrop-filter: blur(16px);
+  }
+  .modal-scrollable-body {
+    flex: 1;
+    overflow-y: auto;
+    margin-top: 16px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: rgba(13, 15, 20, 0.5);
   }
   .modal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
   .modal-title { font-size: 14px; letter-spacing: 0.08em; font-weight: 600; }
@@ -252,13 +348,138 @@
   ::-webkit-scrollbar-track { background: var(--bg); }
   ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
 
+  /* ── DISCOVERY MODE SWITCH ── */
+  .mode-toggle-group {
+    display: inline-flex;
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    border-radius: 20px;
+    padding: 2px;
+    gap: 2px;
+    margin-left: 10px;
+  }
+  .mode-btn {
+    font-family: var(--font);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    border-radius: 18px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .mode-btn.active {
+    background: var(--surface);
+    color: var(--text);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+  }
+
+  /* ── THEME SWITCH ── */
+  .theme-switch-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .theme-label {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .theme-switch {
+    position: relative;
+    display: inline-block;
+    width: 38px;
+    height: 20px;
+  }
+  .theme-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  .theme-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: var(--surface2);
+    border: 1px solid var(--border2);
+    border-radius: 20px;
+    transition: .3s;
+  }
+  .theme-slider:before {
+    position: absolute;
+    content: "";
+    height: 12px;
+    width: 12px;
+    left: 3px;
+    bottom: 3px;
+    background-color: var(--muted);
+    border-radius: 50%;
+    transition: .3s;
+  }
+  input:checked + .theme-slider {
+    border-color: var(--green);
+  }
+  input:checked + .theme-slider:before {
+    transform: translateX(18px);
+    background-color: var(--green);
+  }
+
+  /* ── DANGEROUS PORTS REFERENCE POPUP/TOOLTIP ── */
+  .port-item {
+    position: relative;
+    display: grid;
+    grid-template-columns: 45px 1fr;
+    gap: 12px;
+    font-size: 12px;
+    line-height: 2;
+    cursor: help;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: background 0.15s;
+  }
+  .port-item:hover { background: var(--surface2); }
+  .port-num.red { color: var(--red); font-weight: bold; }
+  .port-desc { color: var(--muted); }
+  .port-tooltip {
+    visibility: hidden;
+    position: absolute;
+    top: 50%;
+    right: 105%;
+    transform: translateY(-50%);
+    background-color: var(--surface2);
+    color: var(--text);
+    text-align: left;
+    border: 1px solid var(--border2);
+    border-radius: 6px;
+    padding: 10px 14px;
+    width: 260px;
+    z-index: 100;
+    opacity: 0;
+    transition: opacity 0.2s, transform 0.2s;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+    font-size: 11px;
+    line-height: 1.4;
+    white-space: normal;
+    pointer-events: none;
+  }
+  .port-tooltip strong { color: var(--amber); }
+  .port-item:hover .port-tooltip {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(-50%) translateX(-4px);
+  }
+
   /* ── MOBILE ── */
   @media (max-width: 768px) {
     .main { padding: 12px; }
     .metrics { grid-template-columns: repeat(2, 1fr); }
     .panels { grid-template-columns: 1fr; }
     .right-col { display: grid; grid-template-columns: 1fr; }
-    .topbar { padding: 10px 12px; }
+    .topbar-header { padding: 10px 12px; }
+    .topbar-controls { padding: 8px 12px; }
     .metric-val { font-size: 26px; }
   }
 </style>
@@ -269,183 +490,385 @@
 <div class="offline-banner" id="offline-banner">
   <span class="offline-msg">&#9888; Cannot reach scanner API at localhost:5000 &mdash; make sure scanner.py is running</span>
   <button class="copy-cmd-btn" id="copy-cmd-btn" onclick="copyLaunchCmd()">
-    &#128203; Copy Launch Command
+    &#128203; Copy Run Command
   </button>
 </div>
 
-<div class="topbar">
-  <div class="topbar-left">
-    <span class="logo">[ THREAT MONITOR ]</span>
-    <div class="live-dot" id="live-dot"></div>
-    <span class="live-label" id="live-label">LIVE</span>
-    <span class="network-chip" id="network-label">detecting...</span>
-    <div class="network-chip" id="bandwidth-chip">
-      &uarr; <span id="upload-speed">0 KB/s</span>
-      &nbsp;&darr; <span id="download-speed">0 KB/s</span>
+<div class="topbar-container">
+  <div class="topbar-header">
+    <div class="header-left">
+      <span class="logo">[ THREAT MONITOR ]</span>
+      <div class="mode-toggle-group">
+        <button class="mode-btn active" id="mode-wifi-btn" onclick="setDiscoveryMode('wifi')">📶 Wi-Fi Mode</button>
+        <button class="mode-btn" id="mode-bt-btn" onclick="setDiscoveryMode('bluetooth')">⚡ Bluetooth Mode</button>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="status-indicator">
+        <div class="live-dot" id="live-dot"></div>
+        <span class="live-label" id="live-label">LIVE</span>
+      </div>
+      <span class="network-chip" id="network-label">detecting...</span>
+      <div class="network-chip" id="bandwidth-chip">
+        &uarr; <span id="upload-speed">0 KB/s</span>
+        &nbsp;&darr; <span id="download-speed">0 KB/s</span>
+      </div>
     </div>
   </div>
-  <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-    <span class="last-scan" id="last-scan">Waiting for scan...</span>
-    <button class="btn" id="refresh-btn" onclick="manualRefresh()">&#8635; Refresh</button>
+  <div class="topbar-controls">
+    <div class="controls-left">
+      <div class="theme-switch-wrap">
+        <span class="theme-label">Light Mode</span>
+        <label class="theme-switch" title="Toggle Light/Dark Theme">
+          <input type="checkbox" id="theme-checkbox" onchange="toggleTheme()">
+          <span class="theme-slider"></span>
+        </label>
+      </div>
+      <div class="divider"></div>
+      <span class="last-scan" id="last-scan">Waiting for scan...</span>
+    </div>
+    <div class="controls-right">
+      <button class="btn btn-amber" onclick="openLogModal(activeLogType)">📜 View Log</button>
+      <button class="btn btn-blue" onclick="openDbModal()">📁 Devices DB</button>
+      <button class="btn" id="refresh-btn" onclick="manualRefresh()">&#8635; Refresh</button>
+    </div>
   </div>
 </div>
 
 <div class="main">
 
-  <div class="metrics">
-    <div class="metric">
-      <div class="metric-label">Total Devices</div>
-      <div class="metric-val green" id="m-total">&ndash;</div>
+  <!-- Wi-Fi View -->
+  <div id="wifi-discovery-view">
+    <!-- Wi-Fi Metrics View -->
+    <div class="metrics" id="wifi-metrics">
+      <div class="metric">
+        <div class="metric-label">Total Wi-Fi Devices</div>
+        <div class="metric-val green" id="m-total">&ndash;</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Unknown / Suspicious</div>
+        <div class="metric-val red" id="m-unknown">&ndash;</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Open Ports</div>
+        <div class="metric-val amber" id="m-ports">&ndash;</div>
+      </div>
     </div>
-    <div class="metric">
-      <div class="metric-label">Unknown / Suspicious</div>
-      <div class="metric-val red" id="m-unknown">&ndash;</div>
-    </div>
-    <div class="metric">
-      <div class="metric-label">Open Ports</div>
-      <div class="metric-val amber" id="m-ports">&ndash;</div>
-    </div>
-    <div class="metric">
-      <div class="metric-label">BT Nearby</div>
-      <div class="metric-val blue" id="m-bt">&ndash;</div>
-    </div>
-  </div>
 
-  <div class="panels">
-
-    <!-- Wi-Fi Devices -->
-    <div class="panel">
-      <div class="panel-head">
-        <span class="panel-title">Wi-Fi Devices</span>
-        <div class="tabs">
-          <button class="tab active" onclick="filterDevices('all',this)">All</button>
-          <button class="tab" onclick="filterDevices('trusted',this)">Trusted</button>
-          <button class="tab" onclick="filterDevices('unknown',this)">Unknown</button>
-          <button class="tab" onclick="filterDevices('suspicious',this)">Suspicious</button>
-          <button class="tab" onclick="filterDevices('blocked',this)">Blocked</button>
+    <!-- Panels: Wi-Fi Devices & Dangerous Ports (Side by Side!) -->
+    <div class="panels">
+      <!-- Wi-Fi Devices (Left Column) -->
+      <div class="panel">
+        <div class="panel-head">
+          <span class="panel-title">Wi-Fi Devices</span>
+          <div class="tabs">
+            <button class="tab active" onclick="filterDevices('all',this)">All</button>
+            <button class="tab" onclick="filterDevices('trusted',this)">Trusted</button>
+            <button class="tab" onclick="filterDevices('unknown',this)">Unknown</button>
+            <button class="tab" onclick="filterDevices('suspicious',this)">Suspicious</button>
+            <button class="tab" onclick="filterDevices('blocked',this)">Blocked</button>
+          </div>
+        </div>
+        <div class="search-wrap">
+          <input type="text" class="search-input" id="wifi-search"
+                 placeholder="Search IP, hostname, vendor, MAC..."
+                 oninput="renderDevices()">
+        </div>
+        <div class="tbl-wrap">
+          <table class="tbl">
+            <thead>
+              <tr>
+                <th>IP Address</th>
+                <th>Hostname</th>
+                <th>Vendor</th>
+                <th>Status</th>
+                <th>Open Ports</th>
+                <th>Last Seen</th>
+              </tr>
+            </thead>
+            <tbody id="device-tbody">
+              <tr><td colspan="6" style="color:var(--muted);text-align:center;padding:24px;">Waiting for scanner...</td></tr>
+            </tbody>
+          </table>
         </div>
       </div>
-      <div class="search-wrap">
-        <input type="text" class="search-input" id="wifi-search"
-               placeholder="Search IP, hostname, vendor, MAC..."
-               oninput="renderDevices()">
+
+      <!-- Dangerous Ports (Right Column with tooltip popups) -->
+      <div class="panel">
+        <div class="panel-head"><span class="panel-title">Dangerous Ports</span></div>
+        <div style="padding:10px 16px;">
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <div class="port-item">
+              <span class="port-num red">23</span>
+              <span class="port-desc">Telnet &ndash; unencrypted</span>
+              <div class="port-tooltip">
+                <strong>Port 23 (Telnet)</strong><br>
+                An unencrypted protocol for remote login. Credentials and data are sent in plain text, making it vulnerable to interception. Use SSH (Port 22) instead.
+              </div>
+            </div>
+            <div class="port-item">
+              <span class="port-num red">3389</span>
+              <span class="port-desc">RDP &ndash; remote desktop</span>
+              <div class="port-tooltip">
+                <strong>Port 3389 (RDP)</strong><br>
+                Microsoft Remote Desktop. Highly targeted by brute-force attackers and ransomware seeking remote control of computers. Keep it restricted behind a VPN.
+              </div>
+            </div>
+            <div class="port-item">
+              <span class="port-num red">5900</span>
+              <span class="port-desc">VNC &ndash; remote desktop</span>
+              <div class="port-tooltip">
+                <strong>Port 5900 (VNC)</strong><br>
+                Virtual Network Computing desktop sharing. Outdated or weakly secured VNC instances allow malicious parties to view and control the session.
+              </div>
+            </div>
+            <div class="port-item">
+              <span class="port-num red">4444</span>
+              <span class="port-desc">Metasploit C2 default</span>
+              <div class="port-tooltip">
+                <strong>Port 4444 (Metasploit)</strong><br>
+                The default port for Metasploit reverse shells. If active, it indicates a highly suspicious outbound session, implying potential unauthorized compromise.
+              </div>
+            </div>
+            <div class="port-item">
+              <span class="port-num red">1337</span>
+              <span class="port-desc">Known hacking tool port</span>
+              <div class="port-tooltip">
+                <strong>Port 1337 (Leet)</strong><br>
+                A signature port popular in backdoor Trojans, botnets, and hacking scripts. Active listeners pose a serious security alert.
+              </div>
+            </div>
+            <div class="port-item">
+              <span class="port-num red">8080</span>
+              <span class="port-desc">Alt HTTP &ndash; review</span>
+              <div class="port-tooltip">
+                <strong>Port 8080 (Alt HTTP)</strong><br>
+                Typically used for proxy servers, cache, or web admin portals. Often hosts unpatched or default-configured services vulnerable to attack.
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="tbl-wrap">
-        <table class="tbl">
+    </div>
+
+    <!-- Wi-Fi Activity Log -->
+    <div class="log-panel">
+      <div class="panel-head">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span class="panel-title">Wi-Fi Activity Log</span>
+          <span class="panel-count" id="wifi-log-count">0 events</span>
+        </div>
+        <button class="btn btn-amber" style="padding:2px 8px;font-size:10px;" onclick="openLogModal('wifi')">🔍 Fullscreen</button>
+      </div>
+      <div class="log-body" id="wifi-log-body">
+        <div style="color:var(--muted);text-align:center;padding:20px;font-size:12px;">Waiting for logs...</div>
+      </div>
+    </div>
+
+    <!-- Wi-Fi Device History Chart -->
+    <div class="history-panel">
+      <div class="history-panel-head">
+        <span class="panel-title">&#128200; Device History</span>
+        <span id="history-range" style="font-size:11px;color:var(--muted);">waiting for data...</span>
+      </div>
+      <div style="padding:16px;position:relative;height:240px;" id="history-chart-wrap">
+        <div class="history-empty" id="history-empty">
+          No history yet &mdash; data appears after the first two scan cycles (~2 min).<br>
+          History persists across restarts in <span style="color:var(--blue);">scan_history.json</span>
+        </div>
+        <canvas id="historyChart" style="display:none;"></canvas>
+      </div>
+    </div>
+
+    <!-- Known Devices -->
+    <div class="known-panel">
+      <div class="panel-head">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span class="panel-title">Known Wi-Fi Devices Database</span>
+          <span class="panel-count" id="known-count">&ndash;</span>
+        </div>
+        <button class="btn btn-blue" style="padding:2px 8px;font-size:10px;" onclick="openDbModal()">🔍 Fullscreen</button>
+      </div>
+      <div class="search-wrap">
+        <input type="text" class="search-input" id="known-search"
+               placeholder="Search MAC, vendor, OS, IP history..."
+               oninput="renderKnownFiltered()">
+      </div>
+      <div class="known-body">
+        <table class="known-tbl">
           <thead>
             <tr>
-              <th>IP Address</th>
-              <th>Hostname</th>
+              <th>Nickname</th>
+              <th>MAC Address</th>
               <th>Vendor</th>
               <th>Status</th>
-              <th>Open Ports</th>
+              <th>OS</th>
+              <th>First Seen</th>
               <th>Last Seen</th>
+              <th>IP History</th>
             </tr>
           </thead>
-          <tbody id="device-tbody">
-            <tr><td colspan="6" style="color:var(--muted);text-align:center;padding:24px;">Waiting for scanner...</td></tr>
+          <tbody id="known-tbody">
+            <tr><td colspan="8" style="color:var(--muted);text-align:center;padding:20px;">Loading...</td></tr>
           </tbody>
         </table>
       </div>
     </div>
 
-    <!-- Right column -->
-    <div class="right-col">
-
-      <!-- Bluetooth -->
-      <div class="panel">
-        <div class="bt-panel-head">
-          <span class="panel-title">Bluetooth Nearby</span>
-          <div class="bt-controls">
-            <span class="panel-count" id="bt-count">&ndash;</span>
-            <button class="bt-sort-btn" id="bt-sort-btn" onclick="toggleBTSort()">&updownarrow; Hidden: bottom</button>
-          </div>
-        </div>
-        <div class="search-wrap">
-          <input type="text" class="search-input" id="bt-search"
-                 placeholder="Filter devices..." onkeyup="filterBT()">
-        </div>
-        <div id="bt-list">
-          <div style="color:var(--muted);text-align:center;padding:20px;font-size:12px;">Scanning...</div>
-        </div>
-      </div>
-
-      <!-- Dangerous Ports Reference -->
-      <div class="panel">
-        <div class="panel-head"><span class="panel-title">Dangerous Ports</span></div>
-        <div style="padding:10px 16px;">
-          <div style="display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:12px;line-height:2;">
-            <span style="color:var(--red);">23</span><span style="color:var(--muted);">Telnet &ndash; unencrypted</span>
-            <span style="color:var(--red);">3389</span><span style="color:var(--muted);">RDP &ndash; remote desktop</span>
-            <span style="color:var(--red);">5900</span><span style="color:var(--muted);">VNC &ndash; remote desktop</span>
-            <span style="color:var(--red);">4444</span><span style="color:var(--muted);">Metasploit C2 default</span>
-            <span style="color:var(--red);">1337</span><span style="color:var(--muted);">Known hacking tool port</span>
-            <span style="color:var(--red);">8080</span><span style="color:var(--muted);">Alt HTTP &ndash; review</span>
-          </div>
-        </div>
-      </div>
-
-    </div>
   </div>
 
-  <!-- Activity Log -->
-  <div class="log-panel">
-    <div class="panel-head">
-      <span class="panel-title">Activity Log</span>
-      <span class="panel-count" id="log-count">&ndash;</span>
-    </div>
-    <div class="log-body" id="log-body">
-      <div style="color:var(--muted);text-align:center;padding:20px;font-size:12px;">Waiting for logs...</div>
-    </div>
-  </div>
-
-  <!-- ── HISTORY GRAPH (NEW) ── -->
-  <div class="history-panel">
-    <div class="history-panel-head">
-      <span class="panel-title">&#128200; Device History</span>
-      <span id="history-range" style="font-size:11px;color:var(--muted);">waiting for data...</span>
-    </div>
-    <div style="padding:16px;position:relative;height:240px;" id="history-chart-wrap">
-      <div class="history-empty" id="history-empty">
-        No history yet &mdash; data appears after the first two scan cycles (~2 min).<br>
-        History persists across restarts in <span style="color:var(--blue);">scan_history.json</span>
+  <!-- Bluetooth View -->
+  <div id="bt-discovery-view" style="display:none;">
+    <!-- Bluetooth Metrics View -->
+    <div class="metrics" id="bt-metrics">
+      <div class="metric">
+        <div class="metric-label">Total BT Devices</div>
+        <div class="metric-val blue" id="m-bt-total">&ndash;</div>
       </div>
-      <canvas id="historyChart" style="display:none;"></canvas>
+      <div class="metric">
+        <div class="metric-label">Hidden / Suspicious BT</div>
+        <div class="metric-val red" id="m-bt-unknown">&ndash;</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Active Transmitters</div>
+        <div class="metric-val green" id="m-bt-active">&ndash;</div>
+      </div>
     </div>
+
+    <!-- Bluetooth Nearby (Full Width Panel) -->
+    <div class="panel" style="margin-bottom: 16px;">
+      <div class="bt-panel-head">
+        <span class="panel-title">Bluetooth Nearby</span>
+        <div class="bt-controls">
+          <span class="panel-count" id="bt-count">&ndash;</span>
+          <button class="bt-sort-btn" id="bt-sort-btn" onclick="toggleBTSort()">&updownarrow; Hidden: bottom</button>
+        </div>
+      </div>
+      <div class="search-wrap">
+        <input type="text" class="search-input" id="bt-search"
+               placeholder="Filter devices..." onkeyup="filterBT()">
+      </div>
+      <div id="bt-list" style="height: 350px; overflow-y: auto;">
+        <div style="color:var(--muted);text-align:center;padding:20px;font-size:12px;">Scanning...</div>
+      </div>
+    </div>
+
+    <!-- Bluetooth Activity Log -->
+    <div class="log-panel">
+      <div class="panel-head">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span class="panel-title">Bluetooth Activity Log</span>
+          <span class="panel-count" id="bt-log-count">0 events</span>
+        </div>
+        <button class="btn btn-amber" style="padding:2px 8px;font-size:10px;" onclick="openLogModal('bluetooth')">🔍 Fullscreen</button>
+      </div>
+      <div class="log-body" id="bt-log-body">
+        <div style="color:var(--muted);text-align:center;padding:20px;font-size:12px;">Waiting for logs...</div>
+      </div>
+    </div>
+
+    <!-- Known Bluetooth Devices -->
+    <div class="known-panel">
+      <div class="panel-head">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span class="panel-title">Known Bluetooth Devices Database</span>
+          <span class="panel-count" id="bt-known-count">&ndash;</span>
+        </div>
+        <button class="btn btn-blue" style="padding:2px 8px;font-size:10px;" onclick="openDbModal()">🔍 Fullscreen</button>
+      </div>
+      <div class="search-wrap">
+        <input type="text" class="search-input" id="bt-known-search"
+               placeholder="Search MAC, name, nickname..."
+               oninput="renderKnownBTFiltered()">
+      </div>
+      <div class="known-body">
+        <table class="known-tbl">
+          <thead>
+            <tr>
+              <th>Nickname</th>
+              <th>MAC Address</th>
+              <th>Device Name</th>
+              <th>Status</th>
+              <th>Signal RSSI</th>
+              <th>First Seen</th>
+              <th>Last Seen</th>
+              <th>Signal History</th>
+            </tr>
+          </thead>
+          <tbody id="bt-known-tbody">
+            <tr><td colspan="8" style="color:var(--muted);text-align:center;padding:20px;">Loading...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
   </div>
 
   <!-- Known Devices -->
-  <div class="known-panel">
-    <div class="panel-head">
-      <span class="panel-title">Known Devices Database</span>
-      <span class="panel-count" id="known-count">&ndash;</span>
+
+
+</div>
+
+<!-- Fullscreen Activity Log Modal -->
+<div class="overlay" id="log-overlay" onclick="closeLogModal(event)">
+  <div class="modal fullscreen-modal" id="log-modal">
+    <div class="modal-head">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <span class="modal-title" id="log-overlay-title">📜 Complete Activity Log</span>
+        <span class="panel-count" id="fullscreen-log-count">0 events</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+        <div class="tabs" id="fullscreen-log-severity-tabs">
+          <button class="tab active" onclick="filterLogSeverity('all', this)">All</button>
+          <button class="tab" onclick="filterLogSeverity('alert', this)">Alerts</button>
+          <button class="tab" onclick="filterLogSeverity('warn', this)">Warnings</button>
+          <button class="tab" onclick="filterLogSeverity('ok', this)">OK</button>
+        </div>
+        <input type="text" class="search-input" id="fullscreen-log-search" placeholder="Search log messages..." oninput="renderFullscreenLogs()" style="width: 220px; background: var(--surface2); border: 1px solid var(--border2); border-radius: 4px; padding: 6px 10px;">
+        <button class="modal-close" onclick="document.getElementById('log-overlay').classList.remove('open')">&#x2715;</button>
+      </div>
     </div>
-    <div class="search-wrap">
-      <input type="text" class="search-input" id="known-search"
-             placeholder="Search MAC, vendor, OS, IP history..."
-             oninput="renderKnownFiltered()">
-    </div>
-    <div class="known-body">
-      <table class="known-tbl">
-        <thead>
-          <tr>
-            <th>Nickname</th>
-            <th>MAC Address</th>
-            <th>Vendor</th>
-            <th>Status</th>
-            <th>OS</th>
-            <th>First Seen</th>
-            <th>Last Seen</th>
-            <th>IP History</th>
-          </tr>
-        </thead>
-        <tbody id="known-tbody">
-          <tr><td colspan="7" style="color:var(--muted);text-align:center;padding:20px;">Loading...</td></tr>
-        </tbody>
-      </table>
+    <div class="modal-scrollable-body" id="fullscreen-log-body">
+      <!-- Logs will be loaded here -->
     </div>
   </div>
+</div>
 
+<!-- Fullscreen Devices Database Modal -->
+<div class="overlay" id="db-overlay" onclick="closeDbModal(event)">
+  <div class="modal fullscreen-modal" id="db-modal">
+    <div class="modal-head">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <span class="modal-title" id="db-modal-title">📁 Known Devices Database</span>
+        <span class="panel-count" id="fullscreen-db-count">0 records</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <input type="text" class="search-input" id="fullscreen-db-search" placeholder="Search MAC, vendor, OS, IP history..." oninput="renderFullscreenKnown()" style="width: 250px; background: var(--surface2); border: 1px solid var(--border2); border-radius: 4px; padding: 6px 10px;">
+        <button class="modal-close" onclick="document.getElementById('db-overlay').classList.remove('open')">&#x2715;</button>
+      </div>
+    </div>
+    <div class="modal-scrollable-body" id="fullscreen-db-body">
+      <div class="tbl-wrap" style="height: 100%;">
+        <table class="known-tbl">
+          <thead>
+            <tr id="fullscreen-db-headers">
+              <th>Nickname</th>
+              <th>MAC Address</th>
+              <th>Vendor</th>
+              <th>Status</th>
+              <th>OS</th>
+              <th>First Seen</th>
+              <th>Last Seen</th>
+              <th>IP History</th>
+            </tr>
+          </thead>
+          <tbody id="fullscreen-db-tbody">
+            <!-- Known devices will be loaded here -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- Detail Modal -->
@@ -464,21 +887,27 @@ const API = '/api';
 let allDevices    = [];
 let allBT         = [];
 let allKnown      = {};
+let allKnownBT    = {};
+let allWifiLogs   = [];
+let allBtLogs     = [];
+let activeLogType = 'wifi';
+let logSeverityFilter = 'all';
 let currentFilter = 'all';
 let btSortOrder   = 'bottom';
 let historyChart  = null;
+let discoveryMode = 'wifi';
 const DANGER_PORTS = new Set([23, 1337, 4444, 3389, 5900, 8080]);
 const UPLOAD_WARN_KBPS = 1024;
 
 
 function copyLaunchCmd() {
-  const cmd = 'cd "D:\\Threat_monitor_Claude"; py scanner.py';
+  const cmd = 'py app_launcher.py';
   navigator.clipboard.writeText(cmd).then(() => {
     const btn = document.getElementById('copy-cmd-btn');
     btn.textContent = '\u2713 Copied!';
     btn.classList.add('copied');
     setTimeout(() => {
-      btn.textContent = '\ud83d\udccb Copy Launch Command';
+      btn.textContent = '\ud83d\udccb Copy Run Command';
       btn.classList.remove('copied');
     }, 2500);
   });
@@ -544,25 +973,73 @@ async function fetchHistory() {
 
 async function fetchAll() {
   try {
-    const [status, devices, bt, logs, known] = await Promise.all([
-      fetch(API + '/status').then(r => r.json()),
-      fetch(API + '/devices').then(r => r.json()),
-      fetch(API + '/bluetooth').then(r => r.json()),
-      fetch(API + '/logs').then(r => r.json()),
-      fetch(API + '/known').then(r => r.json()),
+    const results = await Promise.allSettled([
+      fetch(API + '/status').then(r => { if (!r.ok) throw new Error('status ' + r.status); return r.json(); }),
+      fetch(API + '/devices').then(r => { if (!r.ok) throw new Error('devices ' + r.status); return r.json(); }),
+      fetch(API + '/bluetooth').then(r => { if (!r.ok) throw new Error('bluetooth ' + r.status); return r.json(); }),
+      fetch(API + '/logs?type=wifi').then(r => { if (!r.ok) throw new Error('wifi-logs ' + r.status); return r.json(); }),
+      fetch(API + '/logs?type=bluetooth').then(r => { if (!r.ok) throw new Error('bt-logs ' + r.status); return r.json(); }),
+      fetch(API + '/known').then(r => { if (!r.ok) throw new Error('known ' + r.status); return r.json(); }),
+      fetch(API + '/bluetooth/known').then(r => { if (!r.ok) throw new Error('bt-known ' + r.status); return r.json(); }),
     ]);
+    const status   = results[0].status === 'fulfilled' ? results[0].value : null;
+    const devices  = results[1].status === 'fulfilled' ? results[1].value : [];
+    const bt       = results[2].status === 'fulfilled' ? results[2].value : [];
+    const wifiLogs = results[3].status === 'fulfilled' ? results[3].value : [];
+    const btLogs   = results[4].status === 'fulfilled' ? results[4].value : [];
+    const known    = results[5].status === 'fulfilled' ? results[5].value : {};
+    const knownBT  = results[6].status === 'fulfilled' ? results[6].value : {};
+    // If the critical status endpoint failed, show offline
+    if (!status) throw new Error('Core API unreachable');
 
-    document.getElementById('offline-banner').classList.remove('show');
-    document.getElementById('live-dot').style.background = 'var(--green)';
-    document.getElementById('live-label').textContent    = 'LIVE';
-    document.getElementById('live-label').style.color    = 'var(--green)';
+    // Handle scan status updates dynamically
+    const isScanning = status.is_scanning;
+    const refBtn = document.getElementById('refresh-btn');
+    if (isScanning) {
+      refBtn.textContent = '\u2699 Scanning...';
+      refBtn.disabled    = true;
+      document.getElementById('live-dot').style.background = 'var(--amber)';
+      document.getElementById('live-label').textContent    = 'SCANNING';
+      document.getElementById('live-label').style.color    = 'var(--amber)';
+    } else {
+      refBtn.textContent = '\u21b3 Refresh';
+      refBtn.disabled    = false;
+      document.getElementById('live-dot').style.background = 'var(--green)';
+      document.getElementById('live-label').textContent    = 'LIVE';
+      document.getElementById('live-label').style.color    = 'var(--green)';
+    }
+
+    // Handle scan error dynamically
+    const offlineBanner = document.getElementById('offline-banner');
+    const offlineMsg = offlineBanner.querySelector('.offline-msg');
+    if (status.error) {
+      document.getElementById('network-label').textContent = 'Error';
+      document.getElementById('network-label').classList.add('danger');
+      offlineBanner.classList.add('show');
+      offlineMsg.innerHTML = '&#9888; ' + status.error;
+    } else {
+      document.getElementById('network-label').classList.remove('danger');
+      // Only hide if the error is not about offline API connection
+      if (!offlineMsg.textContent.includes('Cannot reach scanner API')) {
+        offlineBanner.classList.remove('show');
+      }
+    }
 
     document.getElementById('network-label').textContent = status.network || '\u2013';
     document.getElementById('last-scan').textContent     = status.last_scan ? 'Last scan: ' + status.last_scan : '';
+    
+    // Wi-Fi metrics
     document.getElementById('m-total').textContent       = status.total ?? '\u2013';
     document.getElementById('m-unknown').textContent     = status.unknown ?? '\u2013';
     document.getElementById('m-ports').textContent       = status.open_ports ?? '\u2013';
-    document.getElementById('m-bt').textContent          = status.bt_nearby ?? '\u2013';
+
+    // Bluetooth metrics
+    const totalBT = bt.length;
+    const suspiciousBT = bt.filter(d => d.suspicious).length;
+    const activeBT = bt.filter(d => !d.suspicious).length;
+    document.getElementById('m-bt-total').textContent = totalBT;
+    document.getElementById('m-bt-unknown').textContent = suspiciousBT;
+    document.getElementById('m-bt-active').textContent = activeBT;
 
     if (status.bandwidth) {
       document.getElementById('upload-speed').textContent   = status.bandwidth.upload_speed;
@@ -574,14 +1051,32 @@ async function fetchAll() {
     allDevices = devices;
     allBT      = bt;
     allKnown   = known;
+    allKnownBT = knownBT;
+    allWifiLogs = wifiLogs;
+    allBtLogs  = btLogs;
     renderDevices();
     renderBT();
-    renderLogs(logs);
+    renderLogs(allWifiLogs, 'wifi-log-body', 'wifi-log-count');
+    renderLogs(allBtLogs, 'bt-log-body', 'bt-log-count');
     renderKnownFiltered();
+    renderKnownBTFiltered();
     fetchHistory();
+
+    if (document.getElementById('log-overlay').classList.contains('open')) {
+      renderFullscreenLogs();
+    }
+    if (document.getElementById('db-overlay').classList.contains('open')) {
+      if (discoveryMode === 'wifi') {
+        renderFullscreenKnown();
+      } else {
+        renderFullscreenKnownBT();
+      }
+    }
 
   } catch (e) {
     document.getElementById('offline-banner').classList.add('show');
+    document.getElementById('offline-banner').querySelector('.offline-msg').innerHTML = 
+      '&#9888; Cannot reach scanner API at localhost:5000 &mdash; make sure scanner.py is running';
     document.getElementById('live-dot').style.background = 'var(--red)';
     document.getElementById('live-label').textContent    = 'OFFLINE';
     document.getElementById('live-label').style.color    = 'var(--red)';
@@ -629,9 +1124,15 @@ function renderDevices() {
   tbody.innerHTML = data.map(d => {
     const macDash  = d.mac.replace(/:/g, '-');
     const newBadge = d.is_new ? '<span class="badge-new">NEW</span>' : '';
+    // Display nickname, friendly name, or hostname, with device type tag if resolved
+    const displayName = d.nickname || d.friendly_name || d.hostname;
+    const typeTag = d.device_type && d.device_type !== 'Generic Device'
+      ? ' <span style="color:var(--amber);font-size:11px;">[' + d.device_type + ']</span>'
+      : '';
+    const nameDisplay = displayName + typeTag;
     return '<tr class="clickable" onclick="showDetail(\'' + macDash + '\')">' +
       '<td style="font-size:12px;">' + d.ip + '</td>' +
-      '<td>' + d.hostname + '</td>' +
+      '<td>' + nameDisplay + '</td>' +
       '<td style="color:var(--muted);font-size:12px;">' + (d.vendor || 'unknown').slice(0, 22) + '</td>' +
       '<td>' + badgeFor(d.status) + newBadge + '</td>' +
       '<td>' + portsHtml(d.ports) + '</td>' +
@@ -643,7 +1144,7 @@ function renderDevices() {
 
 function filterDevices(f, el) {
   currentFilter = f;
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('#wifi-discovery-view .tab').forEach(t => t.classList.remove('active'));
   el.classList.add('active');
   renderDevices();
 }
@@ -666,6 +1167,7 @@ function sortedBT(devices) {
 
 
 function sigBars(rssi) {
+  if (rssi === 'N/A' || !rssi) rssi = 999;
   const abs  = Math.abs(rssi);
   const bars = [90, 78, 65, 52].map((thresh, i) => {
     const isLit = abs < thresh;
@@ -687,11 +1189,33 @@ function renderBT(devices) {
     return;
   }
   el.innerHTML = sorted.map(d => {
-    const nameColor = d.suspicious ? 'var(--red)' : 'var(--text)';
-    const prefix    = d.suspicious ? '\u26a0 ' : '';
-    return '<div class="bt-item">' +
+    const isSuspicious = d.status === 'suspicious' || (!d.status && d.suspicious);
+    const isBlocked = d.status === 'blocked';
+    
+    let nameColor = 'var(--text)';
+    let prefix = '';
+    if (isBlocked) {
+      nameColor = 'var(--red)';
+      prefix = '\u26D4 [BLOCKED] ';
+    } else if (isSuspicious) {
+      nameColor = 'var(--red)';
+      prefix = '\u26a0 ';
+    } else if (d.status === 'trusted') {
+      prefix = '\u2713 ';
+    }
+
+    const addrDash = d.address.replace(/:/g, '-');
+    const displayName = d.nickname || d.name;
+    const nicknameTag = d.nickname ? ' <span style="color:var(--blue);font-size:11px;">(Nicknamed)</span>' : '';
+    
+    // Status Badge inside item
+    const statusMap = { trusted: 'badge-trusted', suspicious: 'badge-suspicious', blocked: 'badge-blocked' };
+    const statusLabel = { trusted: 'Trusted', suspicious: 'Suspicious', blocked: 'Blocked' };
+    const badgeHtml = '<span class="badge ' + (statusMap[d.status] || 'badge-unknown') + '" style="margin-left:8px;font-size:9px;padding:1px 4px;">' + (statusLabel[d.status] || 'Suspicious') + '</span>';
+
+    return '<div class="bt-item clickable" onclick="showBTDetail(\'' + addrDash + '\')">' +
       '<div>' +
-        '<div class="bt-name" style="color:' + nameColor + ';">' + prefix + d.name + '</div>' +
+        '<div class="bt-name" style="color:' + nameColor + ';">' + prefix + displayName + nicknameTag + badgeHtml + '</div>' +
         '<div class="bt-addr">' + d.address + '</div>' +
       '</div>' +
       '<div style="display:flex;align-items:center;gap:8px;">' +
@@ -713,9 +1237,11 @@ function filterBT() {
 }
 
 
-function renderLogs(logs) {
-  const el = document.getElementById('log-body');
-  document.getElementById('log-count').textContent = logs.length + ' events';
+function renderLogs(logs, bodyId, countId) {
+  const el = document.getElementById(bodyId);
+  if (!el) return;
+  const countEl = document.getElementById(countId);
+  if (countEl) countEl.textContent = logs.length + ' events';
   el.innerHTML = logs.map(l =>
     '<div class="log-row">' +
       '<span class="log-time">' + l.time + '</span>' +
@@ -733,6 +1259,7 @@ function renderKnownFiltered() {
   if (query) {
     entries = entries.filter(([mac, d]) =>
       mac.toLowerCase().includes(query) ||
+      (d.nickname || '').toLowerCase().includes(query) ||
       (d.vendor  || '').toLowerCase().includes(query) ||
       (d.os      || '').toLowerCase().includes(query) ||
       (d.status  || '').toLowerCase().includes(query) ||
@@ -744,15 +1271,17 @@ function renderKnownFiltered() {
     Object.keys(allKnown).length + ' records' + (query ? ' (filtered: ' + entries.length + ')' : '');
 
   if (!entries.length) {
-    tbody.innerHTML = '<tr><td colspan="7" style="color:var(--muted);text-align:center;padding:20px;">' +
+    tbody.innerHTML = '<tr><td colspan="8" style="color:var(--muted);text-align:center;padding:20px;">' +
       (query ? 'No records match "' + query + '".' : 'No records yet') + '</td></tr>';
     return;
   }
 
   tbody.innerHTML = entries.map(([mac, d]) => {
     const history = (d.history || [d.ip]).join(' \u2192 ');
+    const nickname = d.nickname || '\u2013';
     return '<tr>' +
-      '<td style="font-size:12px;color:var(--blue);">' + mac + '</td>' +
+      '<td style="font-size:12px;color:var(--blue);">' + nickname + '</td>' +
+      '<td style="font-size:12px;color:var(--muted);">' + mac + '</td>' +
       '<td style="font-size:12px;color:var(--muted);">' + (d.vendor || 'Unknown').slice(0, 20) + '</td>' +
       '<td>' + badgeFor(d.status || 'unknown') + '</td>' +
       '<td style="font-size:12px;color:var(--muted);">' + (d.os || 'Unknown').slice(0, 18) + '</td>' +
@@ -763,17 +1292,65 @@ function renderKnownFiltered() {
   }).join('');
 }
 
+function renderKnownBTFiltered() {
+  const tbody = document.getElementById('bt-known-tbody');
+  const query = (document.getElementById('bt-known-search').value || '').toLowerCase().trim();
+  let entries = Object.entries(allKnownBT);
+
+  if (query) {
+    entries = entries.filter(([mac, d]) =>
+      mac.toLowerCase().includes(query) ||
+      (d.nickname || '').toLowerCase().includes(query) ||
+      (d.name || '').toLowerCase().includes(query) ||
+      (d.status  || '').toLowerCase().includes(query)
+    );
+  }
+
+  document.getElementById('bt-known-count').textContent =
+    Object.keys(allKnownBT).length + ' records' + (query ? ' (filtered: ' + entries.length + ')' : '');
+
+  if (!entries.length) {
+    tbody.innerHTML = '<tr><td colspan="8" style="color:var(--muted);text-align:center;padding:20px;">' +
+      (query ? 'No records match "' + query + '".' : 'No records yet') + '</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = entries.map(([mac, d]) => {
+    const history = (d.history || [d.signal]).join(' \u2192 ');
+    const nickname = d.nickname || '\u2013';
+    const macDash = mac.replace(/:/g, '-');
+    
+    const statusMap = { trusted: 'badge-trusted', suspicious: 'badge-suspicious', blocked: 'badge-blocked' };
+    const statusLabel = { trusted: 'Trusted', suspicious: 'Suspicious', blocked: 'Blocked' };
+    const badgeHtml = '<span class="badge ' + (statusMap[d.status] || 'badge-unknown') + '">' + (statusLabel[d.status] || d.status || 'Suspicious') + '</span>';
+
+    return '<tr class="clickable" onclick="showBTDetail(\'' + macDash + '\')">' +
+      '<td style="font-size:12px;color:var(--blue);">' + nickname + '</td>' +
+      '<td style="font-size:12px;color:var(--muted);">' + mac + '</td>' +
+      '<td style="font-size:12px;color:var(--muted);">' + (d.name || 'Unknown/Hidden').slice(0, 25) + '</td>' +
+      '<td>' + badgeHtml + '</td>' +
+      '<td style="font-size:12px;color:var(--muted);"><div style="display:flex;align-items:center;gap:6px;"><span>' + (d.signal || 'N/A') + ' dBm</span>' + sigBars(d.signal) + '</div></td>' +
+      '<td style="font-size:11px;color:var(--muted);">' + (d.first_seen || '\u2013') + '</td>' +
+      '<td style="font-size:11px;color:var(--muted);">' + (d.last_seen  || '\u2013') + '</td>' +
+      '<td class="history-chain" style="font-size:10px;">' + history + '</td>' +
+    '</tr>';
+  }).join('');
+}
+
 
 async function showDetail(macDashed) {
   const mac = macDashed.replace(/-/g, ':');
   const d   = allDevices.find(x => x.mac === mac);
   if (!d) return;
 
-  document.getElementById('modal-title').textContent = d.hostname || d.ip;
+  const titleName = d.nickname || d.friendly_name || d.hostname || d.ip;
+  document.getElementById('modal-title').textContent = titleName;
   const rows = [
     ['IP Address',  d.ip],
     ['MAC Address', d.mac],
     ['Vendor',      d.vendor || '\u2013'],
+    ['Friendly Name', d.friendly_name || '\u2013'],
+    ['Device Type',  d.device_type || 'Generic Device'],
     ['OS (nmap)',   d.os || 'Unknown'],
     ['Status',      badgeFor(d.status)],
     ['Open Ports',  d.ports && d.ports.length ? d.ports.join(', ') : 'None'],
@@ -792,6 +1369,16 @@ async function showDetail(macDashed) {
     '</div>'
   ).join('');
 
+  const nickname = d.nickname || '';
+  const nicknameHtml = 
+    '<div class="detail-row" style="flex-direction:column;align-items:stretch;margin-top:12px;border-bottom:none;">' +
+      '<span class="detail-key" style="margin-bottom:6px;">Custom Nickname</span>' +
+      '<div style="display:flex;gap:8px;">' +
+        '<input type="text" id="nickname-input" class="search-input" style="background:var(--surface2);border:1px solid var(--border2);border-radius:4px;padding:6px 10px;flex:1;" placeholder="Assign nickname..." value="' + nickname.replace(/"/g, '&quot;') + '" onkeydown="if(event.key === \'Enter\') saveNickname(\'' + macDashed + '\')">' +
+        '<button class="btn btn-amber" onclick="saveNickname(\'' + macDashed + '\')">Save</button>' +
+      '</div>' +
+    '</div>';
+
   const trustBtn = canTrust
     ? '<button class="btn" onclick="trustDevice(\'' + mac + '\')">\u2713 Mark Trusted</button>'
     : '<button class="btn" disabled style="opacity:0.4;cursor:default;">\u2713 Already Trusted</button>';
@@ -800,7 +1387,7 @@ async function showDetail(macDashed) {
     : '';
 
   document.getElementById('modal-body').innerHTML =
-    rowsHtml + '<div class="modal-actions">' + trustBtn + blockBtn + '</div>';
+    rowsHtml + nicknameHtml + '<div class="modal-actions" style="margin-top:18px;">' + trustBtn + blockBtn + '</div>';
 
   document.getElementById('overlay').classList.add('open');
 }
@@ -822,22 +1409,375 @@ async function trustDevice(mac) {
 
 
 async function blockDevice(mac) {
-  await fetch(API + '/block/' + mac.replace(/:/g, '-'), { method: 'POST' });
+  const res = await fetch(API + '/block/' + mac.replace(/:/g, '-'), { method: 'POST' }).then(r => r.json());
+  if (!res.ok) {
+    alert('Error blocking device: ' + (res.error || 'Command failed'));
+  }
   document.getElementById('overlay').classList.remove('open');
   await fetchAll();
 }
 
 
+async function saveNickname(macDashed) {
+  const mac = macDashed.replace(/-/g, ':');
+  const input = document.getElementById('nickname-input');
+  if (!input) return;
+  const nickname = input.value.trim();
+  
+  const res = await fetch(API + '/nickname/' + macDashed, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ nickname })
+  }).then(r => r.json());
+  
+  if (res.ok) {
+    const dev = allDevices.find(x => x.mac === mac);
+    if (dev) dev.nickname = nickname;
+    if (allKnown[mac]) allKnown[mac].nickname = nickname;
+    renderDevices();
+    renderKnownFiltered();
+    showDetail(macDashed);
+  } else {
+    alert('Failed to save nickname: ' + (res.error || 'unknown error'));
+  }
+}
+
+
 async function manualRefresh() {
   const btn = document.getElementById('refresh-btn');
-  btn.textContent = '\u21b3 Scanning...';
+  btn.textContent = '\u2699 Scanning...';
   btn.disabled    = true;
-  await fetch(API + '/scan/now', { method: 'POST' });
-  await new Promise(r => setTimeout(r, 4000));
+  try {
+    const res = await fetch(API + '/scan/now', { method: 'POST' }).then(r => r.json());
+    if (res.error) {
+      alert(res.error);
+    }
+  } catch (e) {
+    console.error(e);
+  }
   await fetchAll();
-  btn.textContent = '\u21b3 Refresh';
-  btn.disabled    = false;
 }
+
+// ── FULLSCREEN MODAL MANAGEMENT ──
+
+function openLogModal(type) {
+  activeLogType = type || 'wifi';
+  document.getElementById('log-overlay-title').textContent = activeLogType === 'bluetooth' ? '📜 Bluetooth Activity Log' : '📜 Wi-Fi Activity Log';
+  document.getElementById('log-overlay').classList.add('open');
+  renderFullscreenLogs();
+}
+
+function openDbModal() {
+  document.getElementById('db-overlay').classList.add('open');
+  if (discoveryMode === 'wifi') {
+    document.getElementById('db-modal-title').textContent = '📁 Known Wi-Fi Devices Database';
+    document.getElementById('fullscreen-db-search').placeholder = 'Search MAC, vendor, OS, IP history...';
+    document.getElementById('fullscreen-db-search').setAttribute('oninput', 'renderFullscreenKnown()');
+    document.getElementById('fullscreen-db-headers').innerHTML = 
+      '<th>Nickname</th>' +
+      '<th>MAC Address</th>' +
+      '<th>Vendor</th>' +
+      '<th>Status</th>' +
+      '<th>OS</th>' +
+      '<th>First Seen</th>' +
+      '<th>Last Seen</th>' +
+      '<th>IP History</th>';
+    renderFullscreenKnown();
+  } else {
+    document.getElementById('db-modal-title').textContent = '📁 Known Bluetooth Devices Database';
+    document.getElementById('fullscreen-db-search').placeholder = 'Search MAC, name, nickname...';
+    document.getElementById('fullscreen-db-search').setAttribute('oninput', 'renderFullscreenKnownBT()');
+    document.getElementById('fullscreen-db-headers').innerHTML = 
+      '<th>Nickname</th>' +
+      '<th>MAC Address</th>' +
+      '<th>Device Name</th>' +
+      '<th>Status</th>' +
+      '<th>Signal RSSI</th>' +
+      '<th>First Seen</th>' +
+      '<th>Last Seen</th>' +
+      '<th>Signal History</th>';
+    renderFullscreenKnownBT();
+  }
+}
+
+function closeLogModal(e) {
+  if (e.target.id === 'log-overlay') document.getElementById('log-overlay').classList.remove('open');
+}
+
+function closeDbModal(e) {
+  if (e.target.id === 'db-overlay') document.getElementById('db-overlay').classList.remove('open');
+}
+
+function filterLogSeverity(severity, el) {
+  logSeverityFilter = severity;
+  const container = document.getElementById('fullscreen-log-severity-tabs');
+  container.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  renderFullscreenLogs();
+}
+
+function renderFullscreenLogs() {
+  const el = document.getElementById('fullscreen-log-body');
+  const query = (document.getElementById('fullscreen-log-search').value || '').toLowerCase().trim();
+  
+  let data = activeLogType === 'bluetooth' ? allBtLogs : allWifiLogs;
+  if (logSeverityFilter !== 'all') {
+    data = data.filter(l => l.type === logSeverityFilter);
+  }
+  
+  if (query) {
+    data = data.filter(l => l.msg.toLowerCase().includes(query) || l.time.toLowerCase().includes(query));
+  }
+  
+  document.getElementById('fullscreen-log-count').textContent = data.length + ' events' + (query || logSeverityFilter !== 'all' ? ' (filtered)' : '');
+  
+  if (!data.length) {
+    el.innerHTML = '<div style="color:var(--muted);text-align:center;padding:40px;font-size:13px;">No events match the current search or filter.</div>';
+    return;
+  }
+  
+  el.innerHTML = data.map(l =>
+    '<div class="log-row">' +
+      '<span class="log-time">' + l.time + '</span>' +
+      '<span class="log-msg ' + l.type + '">' + l.msg + '</span>' +
+    '</div>'
+  ).join('');
+}
+
+// ── DISCOVERY & THEME MANAGEMENT ──
+function setDiscoveryMode(mode) {
+  discoveryMode = mode;
+  document.getElementById('mode-wifi-btn').classList.toggle('active', mode === 'wifi');
+  document.getElementById('mode-bt-btn').classList.toggle('active', mode === 'bluetooth');
+  
+  if (mode === 'wifi') {
+    document.getElementById('wifi-metrics').style.display = 'grid';
+    document.getElementById('wifi-discovery-view').style.display = 'block';
+    document.getElementById('bt-metrics').style.display = 'none';
+    document.getElementById('bt-discovery-view').style.display = 'none';
+    activeLogType = 'wifi';
+  } else {
+    document.getElementById('wifi-metrics').style.display = 'none';
+    document.getElementById('wifi-discovery-view').style.display = 'none';
+    document.getElementById('bt-metrics').style.display = 'grid';
+    document.getElementById('bt-discovery-view').style.display = 'block';
+    activeLogType = 'bluetooth';
+  }
+}
+
+function toggleTheme() {
+  const isLight = document.getElementById('theme-checkbox').checked;
+  if (isLight) {
+    document.documentElement.classList.add('light-mode');
+    localStorage.setItem('theme', 'light');
+  } else {
+    document.documentElement.classList.remove('light-mode');
+    localStorage.setItem('theme', 'dark');
+  }
+}
+
+// Load theme on startup
+window.addEventListener('DOMContentLoaded', () => {
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'light') {
+    document.getElementById('theme-checkbox').checked = true;
+    document.documentElement.classList.add('light-mode');
+  }
+});
+
+function renderFullscreenKnown() {
+  const tbody = document.getElementById('fullscreen-db-tbody');
+  const query = (document.getElementById('fullscreen-db-search').value || '').toLowerCase().trim();
+  let entries = Object.entries(allKnown);
+
+  if (query) {
+    entries = entries.filter(([mac, d]) =>
+      mac.toLowerCase().includes(query) ||
+      (d.nickname || '').toLowerCase().includes(query) ||
+      (d.vendor  || '').toLowerCase().includes(query) ||
+      (d.os      || '').toLowerCase().includes(query) ||
+      (d.status  || '').toLowerCase().includes(query) ||
+      (d.history || [d.ip]).join(' ').toLowerCase().includes(query)
+    );
+  }
+
+  document.getElementById('fullscreen-db-count').textContent =
+    Object.keys(allKnown).length + ' records' + (query ? ' (filtered: ' + entries.length + ')' : '');
+
+  if (!entries.length) {
+    tbody.innerHTML = '<tr><td colspan="8" style="color:var(--muted);text-align:center;padding:40px;">' +
+      (query ? 'No records match "' + query + '".' : 'No records yet') + '</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = entries.map(([mac, d]) => {
+    const history = (d.history || [d.ip]).join(' \u2192 ');
+    const nickname = d.nickname || '\u2013';
+    return '<tr>' +
+      '<td style="font-size:12px;color:var(--blue);">' + nickname + '</td>' +
+      '<td style="font-size:12px;color:var(--muted);">' + mac + '</td>' +
+      '<td style="font-size:12px;color:var(--muted);">' + (d.vendor || 'Unknown').slice(0, 25) + '</td>' +
+      '<td>' + badgeFor(d.status || 'unknown') + '</td>' +
+      '<td style="font-size:12px;color:var(--muted);">' + (d.os || 'Unknown').slice(0, 20) + '</td>' +
+      '<td style="font-size:11px;color:var(--muted);">' + (d.first_seen || '\u2013') + '</td>' +
+      '<td style="font-size:11px;color:var(--muted);">' + (d.last_seen  || '\u2013') + '</td>' +
+      '<td class="history-chain">' + history + '</td>' +
+    '</tr>';
+  }).join('');
+}
+
+async function showBTDetail(addrDashed) {
+  const addr = addrDashed.replace(/-/g, ':');
+  const d   = allBT.find(x => x.address === addr) || allKnownBT[addr];
+  if (!d) return;
+  // Ensure address is available (allKnownBT entries may not have it as a field)
+  if (!d.address) d.address = addr;
+
+  const titleName = d.nickname || d.name || d.address;
+  document.getElementById('modal-title').textContent = '⚡ Bluetooth: ' + titleName;
+  
+  const badgeMap = { trusted: 'badge-trusted', suspicious: 'badge-suspicious', blocked: 'badge-blocked' };
+  const badgeLabel = { trusted: 'Trusted', suspicious: 'Suspicious', blocked: 'Blocked' };
+  const statusBadge = '<span class="badge ' + (badgeMap[d.status] || 'badge-unknown') + '">' + (badgeLabel[d.status] || d.status || 'Suspicious') + '</span>';
+
+  const rows = [
+    ['Device Name', d.name || '\u2013'],
+    ['MAC Address', d.address],
+    ['Signal RSSI', '<div style="display:flex;align-items:center;gap:6px;"><span>' + (d.signal || 'N/A') + ' dBm</span>' + sigBars(d.signal) + '</div>'],
+    ['Status',      statusBadge],
+    ['First Seen',  d.first_seen || '\u2013'],
+    ['Last Seen',   d.last_seen || '\u2013'],
+  ];
+
+  const canTrust = d.status !== 'trusted';
+  const canBlock = d.status !== 'blocked';
+
+  const rowsHtml = rows.map(([k, v]) =>
+    '<div class="detail-row">' +
+      '<span class="detail-key">' + k + '</span>' +
+      '<span class="detail-val">'  + v + '</span>' +
+    '</div>'
+  ).join('');
+
+  const nickname = d.nickname || '';
+  const nicknameHtml = 
+    '<div class="detail-row" style="flex-direction:column;align-items:stretch;margin-top:12px;border-bottom:none;">' +
+      '<span class="detail-key" style="margin-bottom:6px;">Custom Nickname</span>' +
+      '<div style="display:flex;gap:8px;">' +
+        '<input type="text" id="bt-nickname-input" class="search-input" style="background:var(--surface2);border:1px solid var(--border2);border-radius:4px;padding:6px 10px;flex:1;" placeholder="Assign nickname..." value="' + nickname.replace(/"/g, '&quot;') + '" onkeydown="if(event.key === \'Enter\') saveBTNickname(\'' + addrDashed + '\')">' +
+        '<button class="btn btn-amber" onclick="saveBTNickname(\'' + addrDashed + '\')">Save</button>' +
+      '</div>' +
+    '</div>';
+
+  const trustBtn = canTrust
+    ? '<button class="btn" onclick="trustBTDevice(\'' + addr + '\')">\u2713 Mark Trusted</button>'
+    : '<button class="btn" disabled style="opacity:0.4;cursor:default;">\u2713 Already Trusted</button>';
+  const blockBtn = canBlock
+    ? '<button class="btn btn-alert" onclick="blockBTDevice(\'' + addr + '\')">\u2715 Block</button>'
+    : '';
+
+  document.getElementById('modal-body').innerHTML =
+    rowsHtml + nicknameHtml + '<div class="modal-actions" style="margin-top:18px;">' + trustBtn + blockBtn + '</div>';
+
+  document.getElementById('overlay').classList.add('open');
+}
+
+async function trustBTDevice(addr) {
+  await fetch(API + '/bluetooth/trust/' + addr.replace(/:/g, '-'), { method: 'POST' });
+  const dev = allBT.find(x => x.address === addr);
+  if (dev) { dev.status = 'trusted'; }
+  renderBT();
+  document.getElementById('overlay').classList.remove('open');
+  await fetchAll();
+}
+
+async function blockBTDevice(addr) {
+  await fetch(API + '/bluetooth/block/' + addr.replace(/:/g, '-'), { method: 'POST' });
+  const dev = allBT.find(x => x.address === addr);
+  if (dev) { dev.status = 'blocked'; }
+  renderBT();
+  document.getElementById('overlay').classList.remove('open');
+  await fetchAll();
+}
+
+async function saveBTNickname(addrDashed) {
+  const addr = addrDashed.replace(/-/g, ':');
+  const input = document.getElementById('bt-nickname-input');
+  if (!input) return;
+  const nickname = input.value.trim();
+  
+  const res = await fetch(API + '/bluetooth/nickname/' + addrDashed, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ nickname })
+  }).then(r => r.json());
+  
+  if (res.ok) {
+    const dev = allBT.find(x => x.address === addr);
+    if (dev) dev.nickname = nickname;
+    if (allKnownBT[addr]) allKnownBT[addr].nickname = nickname;
+    renderBT();
+    renderFullscreenKnownBT();
+    showBTDetail(addrDashed);
+  } else {
+    alert('Failed to save nickname: ' + (res.error || 'unknown error'));
+  }
+}
+
+function renderFullscreenKnownBT() {
+  const tbody = document.getElementById('fullscreen-db-tbody');
+  const query = (document.getElementById('fullscreen-db-search').value || '').toLowerCase().trim();
+  let entries = Object.entries(allKnownBT);
+
+  if (query) {
+    entries = entries.filter(([mac, d]) =>
+      mac.toLowerCase().includes(query) ||
+      (d.nickname || '').toLowerCase().includes(query) ||
+      (d.name || '').toLowerCase().includes(query) ||
+      (d.status  || '').toLowerCase().includes(query)
+    );
+  }
+
+  document.getElementById('fullscreen-db-count').textContent =
+    Object.keys(allKnownBT).length + ' records' + (query ? ' (filtered: ' + entries.length + ')' : '');
+
+  if (!entries.length) {
+    tbody.innerHTML = '<tr><td colspan="8" style="color:var(--muted);text-align:center;padding:40px;">' +
+      (query ? 'No records match "' + query + '".' : 'No records yet') + '</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = entries.map(([mac, d]) => {
+    const history = (d.history || [d.signal]).join(' \u2192 ');
+    const nickname = d.nickname || '\u2013';
+    const macDash = mac.replace(/:/g, '-');
+    
+    const statusMap = { trusted: 'badge-trusted', suspicious: 'badge-suspicious', blocked: 'badge-blocked' };
+    const statusLabel = { trusted: 'Trusted', suspicious: 'Suspicious', blocked: 'Blocked' };
+    const badgeHtml = '<span class="badge ' + (statusMap[d.status] || 'badge-unknown') + '">' + (statusLabel[d.status] || d.status || 'Suspicious') + '</span>';
+
+    return '<tr class="clickable" onclick="showBTDetail(\'' + macDash + '\')">' +
+      '<td style="font-size:12px;color:var(--blue);">' + nickname + '</td>' +
+      '<td style="font-size:12px;color:var(--muted);">' + mac + '</td>' +
+      '<td style="font-size:12px;color:var(--muted);">' + (d.name || 'Unknown/Hidden').slice(0, 25) + '</td>' +
+      '<td>' + badgeHtml + '</td>' +
+      '<td style="font-size:12px;color:var(--muted);">' + (d.signal || 'N/A') + ' dBm</td>' +
+      '<td style="font-size:11px;color:var(--muted);">' + (d.first_seen || '\u2013') + '</td>' +
+      '<td style="font-size:11px;color:var(--muted);">' + (d.last_seen  || '\u2013') + '</td>' +
+      '<td class="history-chain" style="font-size:10px;">' + history + '</td>' +
+    '</tr>';
+  }).join('');
+}
+
+
+// Add Esc key support to close fullscreen modals
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    document.getElementById('log-overlay').classList.remove('open');
+    document.getElementById('db-overlay').classList.remove('open');
+    document.getElementById('overlay').classList.remove('open');
+  }
+});
 
 
 fetchAll();

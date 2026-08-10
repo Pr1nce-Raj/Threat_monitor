@@ -4,6 +4,7 @@ pyinstaller --noconfirm --onefile --windowed ^
   --name "ThreatMonitor" ^
   --icon "icon.ico" ^
   --add-data "templates;templates" ^
+  --add-data "icon.ico;." ^
   --hidden-import "flask" ^
   --hidden-import "flask_cors" ^
   --hidden-import "pystray" ^
