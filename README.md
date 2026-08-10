@@ -1,35 +1,66 @@
-# Network Threat Monitor
+# Threat Monitor 🛡️
 
-Network Threat Monitor is a highly robust, agent-assisted cybersecurity dashboard for your local network. It continuously monitors your Wi-Fi subnet and nearby Bluetooth spectrum to identify, track, and alert you of unknown or suspicious devices.
+> Agent-assisted, concurrent Wi-Fi subnet and Bluetooth spectrum cybersecurity dashboard.
 
-## 🚀 Current Progress & Features
+## What It Does
 
-- **Deep Network Sniffing (Wi-Fi):** Leverages `Scapy`, `Nmap`, `mDNS`, and `NetBIOS` for advanced layer-2 packet sniffing and active port scanning on your local subnet.
-- **Active Bluetooth Sweeping:** Utilizes `Bleak` to run concurrent background scans across the Bluetooth spectrum, detecting hidden devices and mapping signal strengths (RSSI).
-- **Premium User Interface:** A highly polished, responsive Vanilla JS/CSS frontend featuring:
-  - Isolated database views for both Wi-Fi and Bluetooth.
-  - Real-time event logging and activity feeds.
-  - Historical signal strength tracking (sigBars).
-  - High-contrast Light Mode and sleek Dark Mode with micro-animations.
-  - Intelligent tooltips for identifying dangerous open ports (e.g., Telnet, RDP).
-- **Device Management:** Assign custom nicknames, mark devices as trusted, or flag them as blocked/suspicious permanently in local JSON databases.
+- 📡 **Deep Network Sniffing (Wi-Fi):** Advanced layer-2 packet sniffing on your local subnet using Scapy and Nmap.
+- 📶 **Active Bluetooth Sweeping:** Concurrent background scans across the Bluetooth spectrum via Bleak to detect hidden devices and track RSSI.
+- 📱 **Premium User Interface:** Highly polished, responsive Vanilla JS/CSS frontend with isolated Wi-Fi and Bluetooth databases.
+- 📊 **Real-time Activity:** Live event logging, activity feeds, and historical signal strength tracking (sigBars).
+- 🎨 **Dynamic Theming:** High-contrast Light Mode and sleek Dark Mode with micro-animations.
+- ⚠️ **Intelligent Tooltips:** Instantly identifies dangerous open ports (e.g., Telnet, RDP).
+- 💾 **Device Management:** Assign custom nicknames, mark devices as trusted, or flag them as blocked/suspicious permanently in local JSON databases.
 
-## 🛠️ Getting Started
+## Tech Stack
 
-### Prerequisites
+| Layer | Technology |
+|---|---|
+| Wi-Fi Packet Sniffing | Scapy, Nmap, mDNS, NetBIOS |
+| Bluetooth Scanning | Bleak |
+| Backend API | Flask (Python) |
+| Frontend | HTML5, Vanilla JS, CSS3 |
+| Database | Local JSON |
+| OS Notifications | Plyer (Windows Balloon-tips) |
+
+## Requirements
+
 - Python 3.8+
-- Administrator/root privileges (required for raw packet sniffing and Nmap).
+- Administrator/root privileges (required for raw packet sniffing and Nmap)
+- Wi-Fi adapter (for network scanning)
+- Bluetooth adapter (for BLE sweeping)
 
-### Installation
-1. Clone this repository.
-2. Run `setup.bat` to install all necessary Python dependencies (like `scapy`, `python-nmap`, `bleak`, `flask`).
-3. Run `app_launcher.py` as an Administrator to start the background scanning daemon and the local web server.
-4. Navigate to `http://localhost:5000` in your browser.
+## Setup (First Time Only)
 
-## 🔮 Future Roadmap & Planned Additions
+1. Clone the repo:
+```bash
+git clone https://github.com/Pr1nce-Raj/Threat_monitor.git
+cd Threat_monitor
+```
 
-As this project continues to evolve, the following features are planned for future development:
-- **Background Daemonization:** Packaging the application to run as a silent Windows Service or Linux `systemd` daemon that starts automatically on boot.
-- **Authentication:** Implementing a secure login portal (JWT/Basic Auth) to protect the dashboard when exposed to a local network (e.g., running on a Raspberry Pi).
-- **Webhooks & External Alerts:** Integration with Discord webhooks or Telegram bots to send immediate push notifications when a new or suspicious device is detected on the network.
-- **Notification Queueing:** Enhancing the Windows desktop notification (`plyer`) logic to support queuing, preventing dropped balloon-tips during rapid discovery bursts.
+2. Run the setup script to install dependencies:
+```bash
+setup.bat
+```
+*That’s it. Setup only needs to be done once.*
+
+## Running the System
+
+### Start the Monitor (Admin Required)
+
+Double-click `app_launcher.py` (ensure you run it as an Administrator)
+
+- Starts the background scanning daemon for Wi-Fi and Bluetooth.
+- Launches the local web server.
+- Navigate to `http://localhost:5000` in your browser to view the dashboard.
+
+## Future Roadmap 🔮
+
+As this project continues to evolve, the following features are planned:
+
+| Feature | Description |
+|---|---|
+| **Background Daemonization** | Packaging the application to run as a silent Windows Service or Linux `systemd` daemon that starts automatically on boot. |
+| **Authentication** | Secure login portal (JWT/Basic Auth) to protect the dashboard when exposed to a local network (e.g., on a Raspberry Pi). |
+| **Webhooks & Alerts** | Integration with Discord webhooks or Telegram bots for immediate push notifications when suspicious devices are detected. |
+| **Notification Queueing** | Enhancing the `plyer` logic to support queuing, preventing dropped balloon-tips during rapid discovery bursts. |
