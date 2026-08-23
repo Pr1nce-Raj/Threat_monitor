@@ -18,3 +18,9 @@ bt_devices.json
 
 # Scratch / Temp
 scratch/
+
+# Archives
+archive/
+**/.vscode/
+
+**/.idea/
